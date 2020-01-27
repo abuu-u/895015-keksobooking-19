@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [abuu](https://up.htmlacademy.ru/javascript/19/user/895015).
-* Наставник: `Неизвестно`.
+* Наставник: [Игорь Шевченко](https://up.htmlacademy.ru/javascript/19/user/149304).
 
 ---
 
