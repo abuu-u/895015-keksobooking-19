@@ -8,7 +8,7 @@ var DATA = {
   },
 
   title: '',
-  address: ['600', '350'],
+  address: '600, 350',
   price: '',
   type: ['palace', 'flat', 'house', 'bungalo'],
   rooms: '',
@@ -82,8 +82,8 @@ var generatePins = function (data, pinsCount) {
       },
 
       location: {
-        x: getRandom(mapPins.offsetWidth) - PIN_WIDTH / 2,
-        y: getRandomInRange(data.locationY) - PIN_HEIGHT
+        x: getRandom(mapPins.offsetWidth),
+        y: getRandomInRange(data.locationY)
       }
     });
   }
@@ -91,21 +91,26 @@ var generatePins = function (data, pinsCount) {
   return pins;
 };
 
-var renderPin = function (pins) {
+var renderPin = function (pinElementTemplate) {
   var pinElement = pin.cloneNode(true);
+  var pinX = pinElementTemplate.location.x - PIN_WIDTH / 2;
+  var pinY = pinElementTemplate.location.y - PIN_HEIGHT;
 
-  pinElement.style = 'left: ' + pins.location.x + 'px; top: ' + pins.location.y + 'px;';
-  pinElement.querySelector('img').src = pins.author.avatar;
-  pinElement.querySelector('img').alt = pins.title;
+  pinElement.style = 'left: ' + pinX + 'px; top: ' + pinY + 'px;';
+  pinElement.querySelector('img').src = pinElementTemplate.author.avatar;
+  pinElement.querySelector('img').alt = pinElementTemplate.title;
 
   return pinElement;
 };
 
-map.classList.remove('map--faded');
+var renderPins = function (pins) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < pins.length; i++) {
+    fragment.appendChild(renderPin(pins[i]));
+  }
+  mapPins.appendChild(fragment);
+};
 
-var pins = generatePins(DATA, PINS_COUNT);
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < pins.length; i++) {
-  fragment.appendChild(renderPin(pins[i]));
-}
-mapPins.appendChild(fragment);
+map.classList.remove('map--faded');
+renderPins(generatePins(DATA, PINS_COUNT));
+
