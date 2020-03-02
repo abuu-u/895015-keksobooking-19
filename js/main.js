@@ -9,10 +9,10 @@ var DATA = {
 
   title: '',
   address: '600, 350',
-  price: '',
+  price: 123,
   type: ['palace', 'flat', 'house', 'bungalo'],
-  rooms: '',
-  guests: '',
+  rooms: 123,
+  guests: 123,
   checkin: ['12:00', '13:00', '14:00'],
   checkout: ['12:00', '13:00', '14:00'],
   features: ['wifi', 'dishwasher', 'parkin', 'washer', 'elevator', 'conditioner'],
@@ -58,7 +58,14 @@ var generateNewArray = function (array) {
   return newArray;
 };
 
-var generatePins = function (data, pinsCount) {
+var generateLocation = function (location, offsetX, offsetY) {
+  var x = getRandom(mapPins.offsetWidth) - offsetX;
+  var y = getRandomInRange(location) - offsetY;
+
+  return 'left: ' + x + 'px; top: ' + y + 'px;';
+};
+
+var generatePins = function (data, pinsCount, offsetX, offsetY) {
   var pins = [];
 
   for (var i = 0; i < pinsCount; i++) {
@@ -81,10 +88,7 @@ var generatePins = function (data, pinsCount) {
         photos: generateNewArray(data.photos)
       },
 
-      location: {
-        x: getRandom(mapPins.offsetWidth),
-        y: getRandomInRange(data.locationY)
-      }
+      location: generateLocation(data.locationY, offsetX, offsetY)
     });
   }
 
@@ -93,10 +97,8 @@ var generatePins = function (data, pinsCount) {
 
 var renderPin = function (pinElementTemplate) {
   var pinElement = pin.cloneNode(true);
-  var pinX = pinElementTemplate.location.x - PIN_WIDTH / 2;
-  var pinY = pinElementTemplate.location.y - PIN_HEIGHT;
 
-  pinElement.style = 'left: ' + pinX + 'px; top: ' + pinY + 'px;';
+  pinElement.style = pinElementTemplate.location;
   pinElement.querySelector('img').src = pinElementTemplate.author.avatar;
   pinElement.querySelector('img').alt = pinElementTemplate.title;
 
@@ -112,5 +114,5 @@ var renderPins = function (pins) {
 };
 
 map.classList.remove('map--faded');
-renderPins(generatePins(DATA, PINS_COUNT));
+renderPins(generatePins(DATA, PINS_COUNT, PIN_WIDTH / 2, PIN_HEIGHT));
 
