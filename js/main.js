@@ -58,14 +58,16 @@ var generateNewArray = function (array) {
   return newArray;
 };
 
-var generateLocation = function (location, offsetX, offsetY) {
-  var x = getRandom(mapPins.offsetWidth) - offsetX;
-  var y = getRandomInRange(location) - offsetY;
+var generateLocation = function (location) {
+  var obj = {
+    x: getRandom(mapPins.offsetWidth),
+    y: getRandomInRange(location)
+  };
 
-  return 'left: ' + x + 'px; top: ' + y + 'px;';
+  return obj;
 };
 
-var generatePins = function (data, pinsCount, offsetX, offsetY) {
+var generatePins = function (data, pinsCount) {
   var pins = [];
 
   for (var i = 0; i < pinsCount; i++) {
@@ -88,17 +90,19 @@ var generatePins = function (data, pinsCount, offsetX, offsetY) {
         photos: generateNewArray(data.photos)
       },
 
-      location: generateLocation(data.locationY, offsetX, offsetY)
+      location: generateLocation(data.locationY)
     });
   }
 
   return pins;
 };
 
-var renderPin = function (pinElementTemplate) {
+var renderPin = function (pinElementTemplate, offsetX, offsetY) {
   var pinElement = pin.cloneNode(true);
+  var pinX = pinElementTemplate.location.x - offsetX;
+  var pinY = pinElementTemplate.location.y - offsetY;
 
-  pinElement.style = pinElementTemplate.location;
+  pinElement.style = 'left: ' + pinX + 'px; top: ' + pinY + 'px;';
   pinElement.querySelector('img').src = pinElementTemplate.author.avatar;
   pinElement.querySelector('img').alt = pinElementTemplate.title;
 
@@ -108,11 +112,11 @@ var renderPin = function (pinElementTemplate) {
 var renderPins = function (pins) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < pins.length; i++) {
-    fragment.appendChild(renderPin(pins[i]));
+    fragment.appendChild(renderPin(pins[i], PIN_WIDTH / 2, PIN_HEIGHT));
   }
   mapPins.appendChild(fragment);
 };
 
 map.classList.remove('map--faded');
-renderPins(generatePins(DATA, PINS_COUNT, PIN_WIDTH / 2, PIN_HEIGHT));
+renderPins(generatePins(DATA, PINS_COUNT));
 
