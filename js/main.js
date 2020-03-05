@@ -135,7 +135,61 @@ var renderPins = function (pins) {
   mapPins.appendChild(fragment);
 };
 
+var renderTextElement = function (element, text) {
+  if (!text) {
+    element.remove();
+    return;
+  }
+
+  element.textContent = text;
+};
+
+var renderPrice = function (priceElement, price) {
+  if (!price) {
+    priceElement.remove();
+    return;
+  }
+
+  var priceText = price + '₽/ночь';
+  priceElement.textContent = priceText;
+};
+
+var renderType = function (typeElement, type) {
+  if (!type) {
+    typeElement.remove();
+    return;
+  }
+
+  var typeText = TYPE[type];
+  typeElement.textContent = typeText;
+};
+
+var renderCapacity = function (capacityElement, rooms, guests) {
+  if (!rooms || !guests) {
+    capacityElement.remove();
+    return;
+  }
+
+  var capacity = rooms + ' комнаты для ' + guests + ' гостей';
+  capacityElement.textContent = capacity;
+};
+
+var renderTime = function (timeElement, checkin, checkout) {
+  if (!checkin || !checkout) {
+    timeElement.remove();
+    return;
+  }
+
+  var time = 'Заезд после ' + checkin + ', выезд до ' + checkout;
+  timeElement.textContent = time;
+};
+
 var renderFeatures = function (featuresList, featuresNames) {
+  if (!featuresNames.length) {
+    featuresList.remove();
+    return;
+  }
+
   var featuresElements = featuresList.querySelectorAll('li');
   var removeCount = 0;
 
@@ -149,40 +203,45 @@ var renderFeatures = function (featuresList, featuresNames) {
   }
 };
 
-var renderPhoto = function (photoElementTemplate, photoLink) {
-  var photoElement = photoElementTemplate.cloneNode(true);
-  photoElement.src = photoLink;
-
-  return photoElement;
-};
-
 var renderPhotos = function (photosList, photoLinks) {
+  if (!photoLinks.length) {
+    photosList.remove();
+    return;
+  }
+
   var photoElementTemplate = photosList.querySelector('img');
   photoElementTemplate.remove();
 
   for (var i = 0; i < photoLinks.length; i++) {
-    photosList.appendChild(renderPhoto(photoElementTemplate, photoLinks[i]));
+    var photoElement = photoElementTemplate.cloneNode(true);
+    photoElement.src = photoLinks[i];
+    photosList.appendChild(photoElement);
   }
+};
+
+var renderAvatar = function (avatar, src) {
+  if (!src) {
+    avatar.remove();
+    return;
+  }
+
+  avatar.src = src;
 };
 
 var renderCard = function (cardElementTemplate) {
   var cardElement = card.cloneNode(true);
   var offer = cardElementTemplate[0].offer;
-  var price = offer.price + '₽/ночь';
-  var type = TYPE[offer.type];
-  var capacity = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
-  var time = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
 
-  cardElement.querySelector('.popup__title').textContent = offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = price;
-  cardElement.querySelector('.popup__type').textContent = type;
-  cardElement.querySelector('.popup__text--capacity').textContent = capacity;
-  cardElement.querySelector('.popup__text--time').textContent = time;
+  renderTextElement(cardElement.querySelector('.popup__title'), offer.title);
+  renderTextElement(cardElement.querySelector('.popup__text--address'), offer.address);
+  renderPrice(cardElement.querySelector('.popup__text--price'), offer.price);
+  renderType(cardElement.querySelector('.popup__type'), offer.type);
+  renderCapacity(cardElement.querySelector('.popup__text--capacity'), offer.rooms, offer.guests);
+  renderTime(cardElement.querySelector('.popup__text--time'), offer.checkin, offer.checkout);
   renderFeatures(cardElement.querySelector('.popup__features'), offer.features);
-  cardElement.querySelector('.popup__description').textContent = offer.description;
+  renderTextElement(cardElement.querySelector('.popup__description'), offer.description);
   renderPhotos(cardElement.querySelector('.popup__photos'), offer.photos);
-  cardElement.querySelector('.popup__avatar').src = cardElementTemplate[0].author.avatar;
+  renderAvatar(cardElement.querySelector('.popup__avatar'), cardElementTemplate[0].author.avatar);
 
   map.insertBefore(cardElement, filtersContainer);
 };
