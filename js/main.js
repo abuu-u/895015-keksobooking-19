@@ -76,6 +76,14 @@ var generateNewArray = function (array) {
   return newArray;
 };
 
+var generateAvatar = function (path, i, format) {
+  if (!path || !format) {
+    return '';
+  }
+
+  return path + '0' + (i + 1) + format;
+};
+
 var generateLocation = function (location) {
   var obj = {
     x: getRandom(mapPins.offsetWidth),
@@ -91,7 +99,7 @@ var generatePins = function (data, pinsCount) {
   for (var i = 0; i < pinsCount; i++) {
     pins.push({
       author: {
-        avatar: data.avatar.path + '0' + (i + 1) + data.avatar.format
+        avatar: generateAvatar(data.avatar.path, i, data.avatar.format)
       },
 
       offer: {
