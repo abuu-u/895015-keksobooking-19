@@ -35,8 +35,6 @@ var TYPE = {
   palace: 'Дворец'
 };
 
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-
 var map = document.querySelector('.map');
 var mapPins = map.querySelector('.map__pins');
 var pin = document.querySelector('#pin')
@@ -202,9 +200,9 @@ var renderFeatures = function (featuresList, featuresNames) {
   var removeCount = 0;
 
   for (var i = 0; i < featuresElements.length; i++) {
-    featuresElements[i].textContent = FEATURES[i];
+    featuresElements[i].textContent = DATA.features[i];
 
-    for (var j = i + removeCount; featuresNames[i] !== FEATURES[j]; j++) {
+    for (var j = i + removeCount; featuresNames[i] !== DATA.features[j]; j++) {
       featuresElements[j].remove();
       removeCount++;
     }
@@ -238,7 +236,7 @@ var renderAvatar = function (avatar, src) {
 
 var renderCard = function (cardElementTemplate) {
   var cardElement = card.cloneNode(true);
-  var offer = cardElementTemplate[0].offer;
+  var offer = cardElementTemplate.offer;
 
   renderTextElement(cardElement.querySelector('.popup__title'), offer.title);
   renderTextElement(cardElement.querySelector('.popup__text--address'), offer.address);
@@ -249,7 +247,7 @@ var renderCard = function (cardElementTemplate) {
   renderFeatures(cardElement.querySelector('.popup__features'), offer.features);
   renderTextElement(cardElement.querySelector('.popup__description'), offer.description);
   renderPhotos(cardElement.querySelector('.popup__photos'), offer.photos);
-  renderAvatar(cardElement.querySelector('.popup__avatar'), cardElementTemplate[0].author.avatar);
+  renderAvatar(cardElement.querySelector('.popup__avatar'), cardElementTemplate.author.avatar);
 
   map.insertBefore(cardElement, filtersContainer);
 };
@@ -257,5 +255,5 @@ var renderCard = function (cardElementTemplate) {
 map.classList.remove('map--faded');
 var pinsData = generatePins(DATA, PINS_COUNT);
 renderPins(pinsData);
-renderCard(pinsData);
+renderCard(pinsData[0]);
 
