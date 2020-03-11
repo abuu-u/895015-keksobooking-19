@@ -367,6 +367,7 @@ fillAddress('center');
 mainPin.addEventListener('mousedown', onMainPinLeftMousedown);
 mainPin.addEventListener('keydown', onMainPinEnterPress);
 adForm.querySelector('#room_number').addEventListener('change', onCapacityChange);
+adForm.querySelector('#capacity').addEventListener('change', onCapacityChange);
 
 var pinsData = generatePins(DATA, PINS_COUNT);
 renderPins(pinsData);
