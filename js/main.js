@@ -32,7 +32,7 @@ var PIN_HEIGHT = 70;
 var PINS_COUNT = 8;
 
 var MAIN_PIN_WIDTH = 62;
-// var MAIN_PIN_HEIGHT = 82;
+var MAIN_PIN_HEIGHT = 82;
 
 // var TYPE = {
 //   flat: 'Квартира',
@@ -297,6 +297,33 @@ var validateCapacity = function () {
   }
 };
 
+var getPinCoordinates = function (pinElem) {
+  var pinLeft = parseInt(pinElem.style.left, 10);
+  var pinTop = parseInt(pinElem.style.top, 10);
+
+  var coordinates = {
+    left: pinLeft,
+    top: pinTop
+  };
+
+  return coordinates;
+};
+
+var fillAddress = function (referencePoint) {
+  var left = '';
+  var top = '';
+
+  if (referencePoint === 'center') {
+    left = getPinCoordinates(mainPin).left + MAIN_PIN_WIDTH / 2;
+    top = getPinCoordinates(mainPin).top + MAIN_PIN_WIDTH / 2;
+  } else if (referencePoint === 'pointer') {
+    left = getPinCoordinates(mainPin).left + MAIN_PIN_WIDTH / 2;
+    top = getPinCoordinates(mainPin).top + MAIN_PIN_HEIGHT / 2;
+  }
+
+  adForm.querySelector('#address').value = left + ', ' + top;
+};
+
 var activatePage = function () {
   map.classList.remove('map--faded');
 
@@ -308,6 +335,7 @@ var activatePage = function () {
 
   mainPin.removeEventListener('mousedown', onMainPinLeftMousedown);
   mainPin.removeEventListener('keydown', onMainPinEnterPress);
+  fillAddress('pointer');
 
   validateCapacity();
 };
@@ -335,9 +363,7 @@ var onCapacityChange = function () {
 
 disableFieldsets(adForm);
 disableFieldsets(filtersForm);
-adForm.querySelector('#address').value = (mapPins.offsetWidth / 2 - MAIN_PIN_WIDTH / 2) +
-    ', ' +
-    (mapPins.clientHeight / 2 - MAIN_PIN_WIDTH / 2);
+fillAddress('center');
 mainPin.addEventListener('mousedown', onMainPinLeftMousedown);
 mainPin.addEventListener('keydown', onMainPinEnterPress);
 adForm.querySelector('#room_number').addEventListener('change', onCapacityChange);
