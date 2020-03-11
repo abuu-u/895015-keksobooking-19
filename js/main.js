@@ -341,7 +341,7 @@ var activatePage = function () {
 };
 
 var onMainPinMousemove = function () {
-  adForm.querySelector('#address').value = '123, 123';
+  fillAddress('pointer');
 };
 
 var onMainPinLeftMousedown = function (evt) {
