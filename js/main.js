@@ -310,15 +310,16 @@ var getPinCoordinates = function (pinElem) {
 };
 
 var fillAddress = function (referencePoint) {
+  var pinCoordinates = getPinCoordinates(mainPin);
   var left = '';
   var top = '';
 
   if (referencePoint === 'center') {
-    left = getPinCoordinates(mainPin).left + MAIN_PIN_WIDTH / 2;
-    top = getPinCoordinates(mainPin).top + MAIN_PIN_WIDTH / 2;
+    left = pinCoordinates.left + MAIN_PIN_WIDTH / 2;
+    top = pinCoordinates.top + MAIN_PIN_WIDTH / 2;
   } else if (referencePoint === 'pointer') {
-    left = getPinCoordinates(mainPin).left + MAIN_PIN_WIDTH / 2;
-    top = getPinCoordinates(mainPin).top + MAIN_PIN_HEIGHT;
+    left = pinCoordinates.left + MAIN_PIN_WIDTH / 2;
+    top = pinCoordinates.top + MAIN_PIN_HEIGHT;
   }
 
   adForm.querySelector('#address').value = left + ', ' + top;
