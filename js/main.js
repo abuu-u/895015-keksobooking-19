@@ -318,7 +318,7 @@ var fillAddress = function (referencePoint) {
     top = getPinCoordinates(mainPin).top + MAIN_PIN_WIDTH / 2;
   } else if (referencePoint === 'pointer') {
     left = getPinCoordinates(mainPin).left + MAIN_PIN_WIDTH / 2;
-    top = getPinCoordinates(mainPin).top + MAIN_PIN_HEIGHT / 2;
+    top = getPinCoordinates(mainPin).top + MAIN_PIN_HEIGHT;
   }
 
   adForm.querySelector('#address').value = left + ', ' + top;
