@@ -284,7 +284,7 @@ var validateCapacity = function () {
 
   if (roomNumber === '100' && guestsNumber !== '0') {
     adForm.querySelector('#capacity').setCustomValidity('100 комнат — «не для гостей»');
-  } else if (roomNumber >= guestsNumber) {
+  } else if (roomNumber >= guestsNumber && guestsNumber !== '0' || roomNumber === '100' && guestsNumber === '0') {
     adForm.querySelector('#capacity').setCustomValidity('');
   } else {
     if (roomNumber === '1') {
