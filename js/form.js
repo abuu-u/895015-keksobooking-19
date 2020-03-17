@@ -10,6 +10,13 @@
     palace: 10000
   };
 
+  var CAPACITY = {
+    1: '1 комната — «для 1 гостя»',
+    2: '2 комнаты — «для 2 гостей» или «для 1 гостя»',
+    3: '3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»',
+    100: '100 комнат — «не для гостей»'
+  };
+
   var mainPin = document.querySelector('.map').querySelector('.map__pin--main');
   var ad = document.querySelector('.ad-form');
 
@@ -18,17 +25,11 @@
     var guestsNumber = ad.querySelector('#capacity').value;
 
     if (roomNumber === '100' && guestsNumber !== '0') {
-      ad.querySelector('#capacity').setCustomValidity('100 комнат — «не для гостей»');
+      ad.querySelector('#capacity').setCustomValidity(CAPACITY[roomNumber]);
     } else if (roomNumber >= guestsNumber && guestsNumber !== '0' || roomNumber === '100' && guestsNumber === '0') {
       ad.querySelector('#capacity').setCustomValidity('');
     } else {
-      if (roomNumber === '1') {
-        ad.querySelector('#capacity').setCustomValidity('1 комната — «для 1 гостя»');
-      } else if (roomNumber === '2') {
-        ad.querySelector('#capacity').setCustomValidity('2 комнаты — «для 2 гостей» или «для 1 гостя»');
-      } else if (roomNumber === '3') {
-        ad.querySelector('#capacity').setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»');
-      }
+      ad.querySelector('#capacity').setCustomValidity(CAPACITY[roomNumber]);
     }
   };
 
@@ -54,6 +55,7 @@
 
   var onTypeChange = function () {
     ad.querySelector('#price').min = TYPE[ad.querySelector('#type').value];
+    ad.querySelector('#price').placeholder = TYPE[ad.querySelector('#type').value];
   };
 
   var onTimeInChange = function () {
