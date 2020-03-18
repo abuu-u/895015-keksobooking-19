@@ -60,7 +60,7 @@
     timeElement.textContent = time;
   };
 
-  var renderFeatures = function (featuresList, featuresNames) {
+  var renderFeatures = function (featuresList, featuresNames, data) {
     if (!featuresNames.length) {
       featuresList.remove();
       return;
@@ -70,9 +70,9 @@
     var removeCount = 0;
 
     for (var i = 0; i < featuresElements.length; i++) {
-      featuresElements[i].textContent = window.DATA.features[i];
+      featuresElements[i].textContent = data.features[i];
 
-      for (var j = i + removeCount; featuresNames[i] !== window.DATA.features[j]; j++) {
+      for (var j = i + removeCount; featuresNames[i] !== data.features[j]; j++) {
         featuresElements[j].remove();
         removeCount++;
       }
@@ -114,7 +114,7 @@
     renderType(cardElement.querySelector('.popup__type'), offer.type);
     renderCapacity(cardElement.querySelector('.popup__text--capacity'), offer.rooms, offer.guests);
     renderTime(cardElement.querySelector('.popup__text--time'), offer.checkin, offer.checkout);
-    renderFeatures(cardElement.querySelector('.popup__features'), offer.features);
+    renderFeatures(cardElement.querySelector('.popup__features'), offer.features, window.DATA);
     renderTextElement(cardElement.querySelector('.popup__description'), offer.description);
     renderPhotos(cardElement.querySelector('.popup__photos'), offer.photos);
     renderAvatar(cardElement.querySelector('.popup__avatar'), cardElementTemplate.author.avatar);
