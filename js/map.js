@@ -18,8 +18,11 @@
 
   var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
+
     for (var i = 0; i < pins.length; i++) {
-      fragment.appendChild(window.pin.render(pins[i], PIN_WIDTH / 2, PIN_HEIGHT));
+      if (pins[i].offer) {
+        fragment.appendChild(window.pin.render(pins[i], PIN_WIDTH / 2, PIN_HEIGHT));
+      }
     }
     pinsContainer.appendChild(fragment);
   };
@@ -129,7 +132,7 @@
   };
 
   var pinsData = window.pin.generate(window.DATA, PINS_COUNT);
-  renderPins(pinsData);
+  window.load(renderPins);
 
   window.utils.disableFieldsets(filters);
 
