@@ -3,6 +3,9 @@
   var LEFT_MOUSE_BUTTON = 0;
   var ENTER_KEY = 'Enter';
   var ESC_KEY = 'Escape';
+  var STATUS_CODE = {
+    OK: 200
+  };
 
   var getRandom = function (number) {
     return Math.floor(Math.random() * number);
@@ -63,6 +66,7 @@
     LEFT_MOUSE_BUTTON: LEFT_MOUSE_BUTTON,
     ENTER_KEY: ENTER_KEY,
     ESC_KEY: ESC_KEY,
+    STATUS_CODE: STATUS_CODE,
     getRandom: getRandom,
     getRandomElement: getRandomElement,
     getRandomInRange: getRandomInRange,
