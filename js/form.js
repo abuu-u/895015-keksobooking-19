@@ -80,6 +80,7 @@
     var pins = map.querySelectorAll('.map__pin');
     var mapFilters = map.querySelector('.map__filters');
 
+    map.querySelector('.map__card').remove();
     ad.reset();
     map.classList.add('map--faded');
     window.utils.disableFieldsets(mapFilters);

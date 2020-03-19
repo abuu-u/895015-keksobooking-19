@@ -54,10 +54,12 @@
     pin.addEventListener('click', function () {
       if (map.querySelector('.map__card')) {
         map.querySelector('.map__card').remove();
+        map.querySelector('.map__pin--active').classList.remove('map__pin--active');
       }
 
       if (!map.querySelector('.map__card')) {
         map.insertBefore(card, filtersContainer);
+        pin.classList.add('map__pin--active');
 
         map.addEventListener('click', onCardPressClose);
         window.addEventListener('keydown', onCardPressEsc);
