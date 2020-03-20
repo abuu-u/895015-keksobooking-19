@@ -7,6 +7,8 @@
     palace: 'Дворец'
   };
 
+  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
   var card = document.querySelector('#card')
       .content
       .querySelector('.map__card');
@@ -60,7 +62,7 @@
     timeElement.textContent = time;
   };
 
-  var renderFeatures = function (featuresList, featuresNames, data) {
+  var renderFeatures = function (featuresList, featuresNames, features) {
     if (!featuresNames.length) {
       featuresList.remove();
       return;
@@ -70,9 +72,9 @@
     var removeCount = 0;
 
     for (var i = 0; i < featuresElements.length; i++) {
-      featuresElements[i].textContent = data.features[i];
+      featuresElements[i].textContent = features[i];
 
-      for (var j = i + removeCount; featuresNames[i] !== data.features[j]; j++) {
+      for (var j = i + removeCount; featuresNames[i] !== features[j]; j++) {
         featuresElements[j].remove();
         removeCount++;
       }
@@ -114,7 +116,7 @@
     renderType(cardElement.querySelector('.popup__type'), offer.type);
     renderCapacity(cardElement.querySelector('.popup__text--capacity'), offer.rooms, offer.guests);
     renderTime(cardElement.querySelector('.popup__text--time'), offer.checkin, offer.checkout);
-    renderFeatures(cardElement.querySelector('.popup__features'), offer.features, window.DATA);
+    renderFeatures(cardElement.querySelector('.popup__features'), offer.features, FEATURES);
     renderTextElement(cardElement.querySelector('.popup__description'), offer.description);
     renderPhotos(cardElement.querySelector('.popup__photos'), offer.photos);
     renderAvatar(cardElement.querySelector('.popup__avatar'), cardElementTemplate.author.avatar);
