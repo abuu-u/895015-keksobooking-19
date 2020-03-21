@@ -2,6 +2,7 @@
 (function () {
   var PIN_HEIGHT = 70;
   var PIN_WIDTH = 50;
+  var PINS_COUNT = 5;
   var MAIN_PIN_WIDTH = 62;
   var MAIN_PIN_HEIGHT = 82;
   var MIN_Y = 130;
@@ -14,6 +15,12 @@
 
   var filtersContainer = map.querySelector('.map__filters-container');
   var filters = filtersContainer.querySelector('.map__filters');
+
+  var onPinClicks = [];
+
+  var onLoadSuccess = function (data) {
+    renderPins(data, PINS_COUNT);
+  };
 
   var activatePage = function () {
     if (filters.querySelector('fieldset').disabled) {
@@ -28,13 +35,14 @@
       window.form.fillAddress('pointer');
 
       window.form.validateCapacity();
-      window.load(renderPins);
+      window.load(onLoadSuccess);
     }
   };
 
   var onCardPressClose = function (evt) {
     if (evt.target && evt.target.parentNode.matches('.map__card') && evt.target.matches('.popup__close')) {
       map.querySelector('.map__card').remove();
+      map.querySelector('.map__pin--active').classList.remove('map__pin--active');
 
       map.removeEventListener('click', onCardPressClose);
       window.removeEventListener('keydown', onCardPressEsc);
@@ -44,6 +52,7 @@
   var onCardPressEsc = function (evt) {
     if (evt.key === window.utils.ESC_KEY && map.querySelector('.map__card')) {
       map.querySelector('.map__card').remove();
+      map.querySelector('.map__pin--active').classList.remove('map__pin--active');
 
       map.removeEventListener('click', onCardPressClose);
       window.removeEventListener('keydown', onCardPressEsc);
@@ -51,7 +60,7 @@
   };
 
   var renderCard = function (pin, card) {
-    pin.addEventListener('click', function () {
+    var onPinClick = function () {
       if (map.querySelector('.map__card')) {
         map.querySelector('.map__card').remove();
         map.querySelector('.map__pin--active').classList.remove('map__pin--active');
@@ -64,13 +73,17 @@
         map.addEventListener('click', onCardPressClose);
         window.addEventListener('keydown', onCardPressEsc);
       }
-    });
+    };
+
+    pin.addEventListener('click', onPinClick);
+
+    onPinClicks.push(onPinClick);
   };
 
-  var renderPins = function (pins) {
+  var renderPins = function (pins, pinsCount) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < pins.length; i++) {
+    for (var i = 0; i < pinsCount; i++) {
       if (pins[i].offer) {
         var pin = window.pin.render(pins[i], PIN_WIDTH / 2, PIN_HEIGHT);
         renderCard(pin, window.card.render(pins[i]));
@@ -138,4 +151,8 @@
 
   mainPin.addEventListener('mousedown', onMainPinLeftMousedown);
   mainPin.addEventListener('keydown', onMainPinEnterPress);
+
+  window.map = {
+    onPinClicks: onPinClicks
+  };
 })();
