@@ -17,7 +17,6 @@
   var filters = filtersContainer.querySelector('.map__filters');
 
   var pinsData;
-  var onPinClicks = [];
 
   var mapFilters = [
     'type',
@@ -82,14 +81,15 @@
   };
 
   var renderCard = function (evt) {
-    var pin = evt.target;
+    var pin = evt.currentTarget;
+
     if (map.querySelector('.map__card')) {
       map.querySelector('.map__card').remove();
       map.querySelector('.map__pin--active').classList.remove('map__pin--active');
     }
 
     if (!map.querySelector('.map__card')) {
-      map.insertBefore(window.card.render(pinsData[pin.getAttribute('data-id')]), filtersContainer);
+      map.insertBefore(window.card.render(filterPins(pinsData)[pin.getAttribute('data-id')]), filtersContainer);
       pin.classList.add('map__pin--active');
 
       map.addEventListener('click', onCardPressClose);
@@ -268,7 +268,6 @@
   mainPin.addEventListener('keydown', onMainPinEnterPress);
 
   window.map = {
-    onPinClicks: onPinClicks,
     removePins: removePins
   };
 })();
