@@ -183,36 +183,36 @@
     }
   };
 
-  var updatePins = function () {
+  var updatePins = window.debounce(function () {
     if (map.querySelector('.map__card')) {
       map.querySelector('.map__card').remove();
     }
 
     removePins();
     renderPins(filterPins(pinsData), PINS_COUNT);
-  };
+  });
 
-  var onTypeChange = window.debounce(function (evt) {
+  var onTypeChange = function (evt) {
     house.type = evt.target.value;
     updatePins();
-  });
+  };
 
-  var onPriceChange = window.debounce(function (evt) {
+  var onPriceChange = function (evt) {
     house.price = evt.target.value;
     updatePins();
-  });
+  };
 
-  var onRoomsChange = window.debounce(function (evt) {
+  var onRoomsChange = function (evt) {
     house.rooms = evt.target.value;
     updatePins();
-  });
+  };
 
-  var onGuestsChange = window.debounce(function (evt) {
+  var onGuestsChange = function (evt) {
     house.guests = evt.target.value;
     updatePins();
-  });
+  };
 
-  var onFeaturesChange = window.debounce(function (evt) {
+  var onFeaturesChange = function (evt) {
     if (evt.target.checked) {
       house.features.push(evt.target.value);
     } else {
@@ -220,7 +220,7 @@
     }
 
     updatePins();
-  });
+  };
 
   var filterPins = function (data) {
     return data.filter(function (pin) {
