@@ -86,6 +86,7 @@
     map.classList.add('map--faded');
     window.utils.disableFieldsets(mapFilters);
     mapFilters.classList.add('map__filters--disabled');
+    mapFilters.reset();
     window.utils.disableFieldsets(ad);
     ad.classList.add('ad-form--disabled');
     changeMinPrice();
