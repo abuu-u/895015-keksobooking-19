@@ -81,25 +81,20 @@
     }
   };
 
-  var renderCard = function (pin, card) {
-    var onPinClick = function () {
-      if (map.querySelector('.map__card')) {
-        map.querySelector('.map__card').remove();
-        map.querySelector('.map__pin--active').classList.remove('map__pin--active');
-      }
+  var renderCard = function (evt) {
+    var pin = evt.target;
+    if (map.querySelector('.map__card')) {
+      map.querySelector('.map__card').remove();
+      map.querySelector('.map__pin--active').classList.remove('map__pin--active');
+    }
 
-      if (!map.querySelector('.map__card')) {
-        map.insertBefore(card, filtersContainer);
-        pin.classList.add('map__pin--active');
+    if (!map.querySelector('.map__card')) {
+      map.insertBefore(window.card.render(pinsData[pin.getAttribute('data-id')]), filtersContainer);
+      pin.classList.add('map__pin--active');
 
-        map.addEventListener('click', onCardPressClose);
-        window.addEventListener('keydown', onCardPressEsc);
-      }
-    };
-
-    pin.addEventListener('click', onPinClick);
-
-    onPinClicks.push(onPinClick);
+      map.addEventListener('click', onCardPressClose);
+      window.addEventListener('keydown', onCardPressEsc);
+    }
   };
 
   var renderPins = function (pins, pinsCount) {
@@ -108,8 +103,9 @@
     for (var i = 0; i < pins.length; i++) {
       if (pins[i].offer && i < pinsCount) {
         var pin = window.pin.render(pins[i], PIN_WIDTH / 2, PIN_HEIGHT);
-        renderCard(pin, window.card.render(pins[i]));
+        pin.setAttribute('data-id', i);
         fragment.appendChild(pin);
+        pin.addEventListener('click', renderCard);
       }
     }
     pinsContainer.appendChild(fragment);
@@ -118,9 +114,9 @@
   var removePins = function () {
     var pins = map.querySelectorAll('[type=button].map__pin');
 
-    pins.forEach(function (pin, index) {
+    pins.forEach(function (pin) {
       if (!pin.matches('.map__pin--main')) {
-        pin.removeEventListener('click', onPinClicks[index]);
+        pin.removeEventListener('click', renderCard);
         pin.remove();
       }
     });
