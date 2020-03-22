@@ -116,15 +116,12 @@
   };
 
   var removePins = function () {
-    var pins = map.querySelectorAll('.map__pin');
-    var skip = 0;
+    var pins = map.querySelectorAll('[type=button].map__pin');
 
     pins.forEach(function (pin, index) {
       if (!pin.matches('.map__pin--main')) {
-        pin.removeEventListener('click', onPinClicks[index - skip]);
+        pin.removeEventListener('click', onPinClicks[index]);
         pin.remove();
-      } else {
-        skip++;
       }
     });
   };
