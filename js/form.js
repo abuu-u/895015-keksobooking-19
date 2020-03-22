@@ -77,7 +77,6 @@
   };
 
   var resetPage = function () {
-    var pins = map.querySelectorAll('.map__pin');
     var mapFilters = map.querySelector('.map__filters');
 
     if (map.querySelector('.map__card')) {
@@ -91,15 +90,7 @@
     ad.classList.add('ad-form--disabled');
     changeMinPrice();
 
-    var skip = 0;
-    for (var i = 0; i < pins.length; i++) {
-      if (!pins[i].matches('.map__pin--main')) {
-        pins[i].removeEventListener('click', window.map.onPinClicks[i - skip]);
-        pins[i].remove();
-      } else {
-        skip++;
-      }
-    }
+    window.map.removePins();
 
     map.querySelector('.map__pin--main').style.top = MAIN_PIN_START_COORDINATES.TOP;
     map.querySelector('.map__pin--main').style.left = MAIN_PIN_START_COORDINATES.LEFT;
