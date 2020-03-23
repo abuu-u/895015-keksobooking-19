@@ -78,6 +78,8 @@
 
   var resetPage = function () {
     var mapFilters = map.querySelector('.map__filters');
+    var avatar = ad.querySelector('.ad-form-header__preview').querySelector('img');
+    var houseImgaes = ad.querySelectorAll('.ad-form__photo');
 
     if (map.querySelector('.map__card')) {
       map.querySelector('.map__card').remove();
@@ -90,6 +92,15 @@
     window.utils.disableFieldsets(ad);
     ad.classList.add('ad-form--disabled');
     changeMinPrice();
+
+    avatar.src = 'img/muffin-grey.svg';
+    houseImgaes.forEach(function (image, index, array) {
+      if (index < array.length - 1) {
+        image.remove();
+      } else {
+        image.querySelector('img').remove();
+      }
+    });
 
     window.map.removePins();
 
