@@ -7,47 +7,20 @@
     OK: 200
   };
 
-  var getRandom = function (number) {
-    return Math.floor(Math.random() * number);
-  };
-
-  var getRandomElement = function (array) {
-    return array[getRandom(array.length)];
-  };
-
-  var getRandomInRange = function (range) {
-    return range.start + getRandom(range.end - range.start);
-  };
-
-  var generateNewArray = function (array) {
-    var newArray = [];
-    var arrayRandomLength = getRandom(array.length);
-
-    for (var i = 0; i < array.length; i++) {
-      newArray.push(array[i]);
-    }
-
-    for (var j = arrayRandomLength; j < array.length; j++) {
-      newArray.splice(getRandom(newArray.length), 1);
-    }
-
-    return newArray;
-  };
-
   var disableFieldsets = function (fieldsetsParent) {
     var fieldsets = fieldsetsParent.querySelectorAll('fieldset');
 
-    for (var i = 0; i < fieldsets.length; i++) {
-      fieldsets[i].setAttribute('disabled', 'true');
-    }
+    fieldsets.forEach(function (fieldset) {
+      fieldset.setAttribute('disabled', 'true');
+    });
   };
 
   var enableFieldsets = function (fieldsetsParent) {
     var fieldsets = fieldsetsParent.querySelectorAll('fieldset');
 
-    for (var i = 0; i < fieldsets.length; i++) {
-      fieldsets[i].removeAttribute('disabled');
-    }
+    fieldsets.forEach(function (fieldset) {
+      fieldset.removeAttribute('disabled');
+    });
   };
 
   var getPinCoordinates = function (pinElem) {
@@ -67,10 +40,6 @@
     ENTER_KEY: ENTER_KEY,
     ESC_KEY: ESC_KEY,
     STATUS_CODE: STATUS_CODE,
-    getRandom: getRandom,
-    getRandomElement: getRandomElement,
-    getRandomInRange: getRandomInRange,
-    generateNewArray: generateNewArray,
     disableFieldsets: disableFieldsets,
     enableFieldsets: enableFieldsets,
     getPinCoordinates: getPinCoordinates
