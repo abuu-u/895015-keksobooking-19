@@ -69,14 +69,12 @@
     }
 
     var featuresElements = featuresList.querySelectorAll('li');
-    var removeCount = 0;
 
     featuresElements.forEach(function (featuresElement, index) {
       featuresElement.textContent = features[index];
 
-      for (var j = index + removeCount; featuresNames[index] !== features[j]; j++) {
-        featuresElements[j].remove();
-        removeCount++;
+      if (featuresNames.indexOf(features[index]) === -1) {
+        featuresElement.remove();
       }
     });
   };
