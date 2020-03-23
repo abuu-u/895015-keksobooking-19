@@ -90,11 +90,11 @@
     var photoElementTemplate = photosList.querySelector('img');
     photoElementTemplate.remove();
 
-    for (var i = 0; i < photoLinks.length; i++) {
+    photoLinks.forEach(function (link) {
       var photoElement = photoElementTemplate.cloneNode(true);
-      photoElement.src = photoLinks[i];
+      photoElement.src = link;
       photosList.appendChild(photoElement);
-    }
+    });
   };
 
   var renderAvatar = function (avatar, src) {
