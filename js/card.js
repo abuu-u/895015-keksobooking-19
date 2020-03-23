@@ -71,14 +71,14 @@
     var featuresElements = featuresList.querySelectorAll('li');
     var removeCount = 0;
 
-    for (var i = 0; i < featuresElements.length; i++) {
-      featuresElements[i].textContent = features[i];
+    featuresElements.forEach(function (featuresElement, index) {
+      featuresElement.textContent = features[index];
 
-      for (var j = i + removeCount; featuresNames[i] !== features[j]; j++) {
+      for (var j = index + removeCount; featuresNames[index] !== features[j]; j++) {
         featuresElements[j].remove();
         removeCount++;
       }
-    }
+    });
   };
 
   var renderPhotos = function (photosList, photoLinks) {
